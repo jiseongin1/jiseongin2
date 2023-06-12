@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Translation Example</title>
+</head>
+<body>
+    <textarea id="sourceText" rows="5" cols="50"></textarea><br>
+    <button onclick="translateText()">번역</button>
+    <p id="translatedText"></p>
+
+    <script>
+        function translateText() {
+            var sourceText = document.getElementById("sourceText").value;
+
+            fetch("https://translation.googleapis.com/language/translate/v2?key=AIzaSyDPt08JC9dBlwxrzJq0NNEwEIzzmR9-x2M", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    q: sourceText,
+                    source: "en", // 원본 언어 (예: 영어)
+                    target: "ko" // 번역할 언어 (예: 한국어)
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                var translatedText = data.data.translations[0].translatedText;
+                document.getElementById("translatedText").innerText = translatedText;
+            })
+            .catch(error => console.log(error));
+        }
+    </script>
+</body>
+</html>
+
+        
